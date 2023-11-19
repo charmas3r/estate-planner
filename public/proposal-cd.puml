@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class EstatePlannerContract {
+-admin: address
+-trustor: address
+-beneficiaries: mapping[address, uint]
+-trustees: array[address]
+-isRevoked: boolean
+-totalAmount: uint
+-trustName: string
+
++createContract(beneficiaries: mapping(address, percentage), trustees)
++revokeContract()
++payBeneficiaries()
++addBeneficiary(beneficiary: mapping(address, percentage)
++removeBeneficiary(beneficiary: address)
++getTotalAmount()
++getTrustName()
+}
+
+@enduml

@@ -1,0 +1,53 @@
+@startuml
+left to right direction
+
+package SystemUsers {
+actor Admin as a
+}
+
+package TrustUsers {
+actor Trustor as to
+actor Trustee as te
+actor Beneficiary as b
+}
+
+package BlockchainTrustDapp {
+  usecase "Create trust (see TrustUseCase)" as UC1
+  usecase "Update trust (see TrustUseCase)" as UC2
+  usecase "Set trust revokable state (once set to irrevocable, admin can payout)" as UC3
+  usecase "Get trust payout details" as UC4
+  usecase "Pay out trust" as UC5
+  usecase "Get trustors" as UC8
+  usecase "Get trustees" as UC9
+  usecase "Get beneficiaries" as UC10
+  usecase "Create credentials" as UC11
+  usecase "Get trusts" as UC13
+}
+
+package TrustUseCase {
+  usecase "Add beneficiary" as UC6
+  usecase "Add trustee" as UC14
+  usecase "Set trustee active status" as UC15
+  usecase "Set beneficiary active status" as UC7
+}
+
+a --> UC8
+a --> UC9
+a --> UC10
+a --> UC11
+a --> UC13
+a --> UC4
+to --> UC1
+to --> UC2
+te --> UC3
+to --> UC4
+te --> UC4
+b --> UC4
+a --> UC5
+to --> UC6
+to --> UC7
+to --> UC3
+to --> UC14
+to --> UC15
+
+@enduml
