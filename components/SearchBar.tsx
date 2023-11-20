@@ -1,5 +1,5 @@
 export const SearchBar = () => {
     return(
-        <input type="text" placeholder="Type here" className="input w-full max-w-xs rounded-2xl mt-20 ml-20" />
+        <input type="text" placeholder="Search for trust address" className="input text-slate-400 w-full max-w-md rounded-2xl" />
     )
 }
