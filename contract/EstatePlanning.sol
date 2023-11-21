@@ -6,7 +6,7 @@ pragma solidity ^0.8.0;
 
 contract EstatePlanning{ //the contract block 
 
- //embedded contract
+ //new contract
 
 //The variables 
 
