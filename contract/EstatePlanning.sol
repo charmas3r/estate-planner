@@ -2,6 +2,19 @@
 
 pragma solidity ^0.8.0; 
 
+contract EstatePlanningFactory{
+    EstatePlanning[] public deployedCampaigns;
+
+    function createCampaign() public {
+        EstatePlanning newCampaign = new EstatePlanning();
+        deployedCampaigns.push(newCampaign);
+    }
+
+    function getDeployedCampaigns() public view returns (EstatePlanning[] memory) {
+        return deployedCampaigns;
+    }
+}
+
  
 
 contract EstatePlanning{ //the contract block 
@@ -35,8 +48,17 @@ mapping (address => uint) trustes;
  
 
 //the functions 
+//The constructor
 
+constructor()payable{
+    trustor = msg.sender;
+}
  
+ //the destructor
+
+ function deleteContract() public {
+    selfdestruct(payable(trustor));//typecast to payable bcuz not supported after 0.8.0
+ }
 
 //getters and setters for admin 
 
