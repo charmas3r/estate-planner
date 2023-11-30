@@ -1,6 +1,10 @@
 import Image from "next/image";
+import { useRouter } from 'next/navigation'
+
 
 export const ContentTable = () => {
+    const router = useRouter()
+
     return(
         <div className="overflow-x-auto">
             <table className="table">
@@ -47,10 +51,10 @@ export const ContentTable = () => {
                     </td>
                     <td><span className="badge badge-success badge-sm">Active</span></td>
                     <th>
-                        <button className="btn btn-ghost btn-xs rounded-xl">details</button>
+                        <button className="btn btn-ghost btn-xs rounded-xl" onClick={() => router.push(`/details/0x1234}`)}>details</button>
                     </th>
                     <th>
-                        <button className="btn btn-ghost btn-xs rounded-xl">edit</button>
+                        <button className="btn btn-ghost btn-xs rounded-xl" >edit</button>
                     </th>
                     <th>
                         <button className="btn btn-ghost btn-circle">

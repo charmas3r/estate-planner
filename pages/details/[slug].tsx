@@ -12,6 +12,18 @@ const DetailsPage = () => {
                                 <h2 className="mt-4 mb-2 text-4xl font-extrabold md:text-6xl">See your trust details</h2>
                             </div>
                             <div className="py-6">You can see all the details of your trust here.</div>
+                            <div className="card glass bg-opacity-60 text-primary-content m-auto">
+                                <div className="card-body">
+                                    <h1 className="mb-5 text-5xl font-bold card-title">Get help now</h1>
+                                    <p className="mb-5">Fast, reliable service at your fingertips! Get in contact with us right
+                                        away so we can get to you as soon as today! We’re just a click away.</p>
+                                    <div className="card-actions justify-end">
+                                        <button className="btn btn-primary"> EDIT</button>
+                                        <button className="btn btn-warning"> DEACTIVATE</button>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
