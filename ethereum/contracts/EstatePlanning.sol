@@ -17,9 +17,9 @@ contract EstatePlanningFactory{
 
  
 
-contract EstatePlanning{ //the contract block 
+contract EstatePlanning{ //the contracts block
 
- //new contract
+ //new contracts
 
 //The variables 
 
@@ -140,7 +140,7 @@ modifier restricted1() {
 
  
 
-//set trustee active status(restricted, contract is in revokeable state, is actually trustor) 
+//set trustee active status(restricted, contracts is in revokeable state, is actually trustor)
 
 modifier restricted2() { 
 
