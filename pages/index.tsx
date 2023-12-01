@@ -32,9 +32,8 @@ export default function Home() {
                         const trusts = await getTrusts(web3);
 
                         trusts.map(async (address: string) => {
-                            console.log("Trying to call: "+  address)
-                            // const details = await getTrustDetails(primary.account, web3);
-                            // console.log(details)
+                            const details = await getTrustDetails(address, web3);
+                            console.log(details)
                         });
 
                         window.ethereum.on("accountsChanged", async (accounts: any[]) => {
