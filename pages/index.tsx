@@ -1,29 +1,23 @@
 import {Footer} from "@/components/Footer";
-import factory from "@/ethereum/factory";
-import {ContentPageDto} from "@/data/ContentDto";
-import {GetServerSideProps} from "next";
 import {useEffect, useState} from "react";
-import Web3 from "web3";
+import {Web3} from "web3";
 import {SearchBar} from "@/components/SearchBar";
-import {ConnectButton} from "@/components/ConnectButton";
 import {ContentTable} from "@/components/ContentTable";
-import {MetaMaskInpageProvider} from "@metamask/providers";
-
-declare global {
-    interface Window {
-        ethereum?: MetaMaskInpageProvider
-    }
-}
+import {CreateButton} from "@/components/CreateButton";
+import {getTrusts} from "@/data/EstatePlanningFactoryApi";
+import {getTrustDetails} from "@/data/EstatePlanningApi";
 
 interface PrimaryAccount {
     account: string;
 }
 
-export default function Home({content}: ContentPageDto) {
+export default function Home() {
     const [account, setAccount]
         = useState<PrimaryAccount>({account: ''});
     let accounts;
-    let userAddress;
+    let primary: PrimaryAccount = new class implements PrimaryAccount {
+        account: string;
+    };
 
     useEffect(() => {
         const fetchAccount = async () => {
@@ -32,29 +26,31 @@ export default function Home({content}: ContentPageDto) {
                     .then(async () => {
                         const web3 = new Web3(window.ethereum);
                         accounts = await web3.eth.getAccounts();
-                        userAddress = accounts[0];
-                        console.log(userAddress);
-                        setAccount(userAddress);
+                        primary.account = accounts[0];
+                        setAccount(primary);
+                        console.log("Primary account on MetaMask: " + primary.account);
+                        const trusts = await getTrusts(web3);
+
+                        trusts.map(async (address: string) => {
+                            console.log("Trying to call: "+  address)
+                            // const details = await getTrustDetails(primary.account, web3);
+                            // console.log(details)
+                        });
 
                         window.ethereum.on("accountsChanged", async (accounts: any[]) => {
                             // handle account change
                             accounts = await web3.eth.getAccounts();
-                            userAddress = accounts[0];
-                            setAccount(userAddress);
+                            primary.account = accounts[0];
+                            console.log("Switched account, new primary account on MetaMask: " + primary.account);
+                            setAccount(primary);
                         });
 
                         window.ethereum.on("disconnect", () => {
                             // handle metamask logout
-                            console.log("disconnect");
+                            console.log("disconnected from MetaMask");
                             setAccount(null);
                         });
                     })
-                    .then(
-                        async () => {
-                            // const campaigns = await factory.methods.getDeployedCampaigns().call();
-                            // get campaigns
-                        }
-                    );
             } catch (error) {
                 if (error instanceof Error) {
                     if (error.message === "User denied account authorization") {
@@ -67,16 +63,9 @@ export default function Home({content}: ContentPageDto) {
                 }
             }
         };
-        // call the function
         fetchAccount()
-            // make sure to catch any error
             .catch(console.error);
     }, []);
-
-    async function handleClick() {
-        // const campaigns = await factory.methods.getDeployedCampaigns().call();
-        // console.log(campaigns)
-    }
 
     return (
         <div className="bg-base-100">
@@ -89,8 +78,7 @@ export default function Home({content}: ContentPageDto) {
                                 Planning dApp</h1>
                             <div className="flex flex-col w-full gap-10 lg:gap-40 lg:flex-row mt-20 ml-20">
                                 <SearchBar/>
-                                {/*<CreateButton/>*/}
-                                <ConnectButton handleClick={handleClick}/>
+                                <CreateButton/>
                             </div>
                         </div>
                         <div className="hero-content text-center text-neutral-content mt-40">
@@ -104,12 +92,5 @@ export default function Home({content}: ContentPageDto) {
     )
 }
 
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//     const campaigns = await factory.methods.getDeployedCampaigns().call();
-//     return {
-//         props: { campaigns },
-//     }
-// };
 
 
