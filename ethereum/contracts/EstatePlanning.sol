@@ -37,6 +37,8 @@ contract EstatePlanning { //the contracts block
 
     bool isRevoked;
 
+    bool activeStatus = true;
+
 
     mapping(address => bool) activeTrustor;
 
@@ -52,8 +54,10 @@ contract EstatePlanning { //the contracts block
 
     //the destructor
 
-    function deleteContract() public {
+    function deleteContract() public returns(bool) {
         selfdestruct(payable(trustor));//typecast to payable bcuz not supported after 0.8.0
+        activeStatus = false;//The contract is no longer active
+        return activeStatus;
     }
 
     //getters and setters for admin
@@ -114,13 +118,18 @@ contract EstatePlanning { //the contracts block
 
     // temporary method to return some minimal trust details needed for displaying landing screen in app
     // TODO complete this method.
-    function getTrustDetails() public view returns (
+    // So far trustor, trustees, beneficiaries, totalAmount, trustName is added to be returned
+    function getTrustDetails(address beneficiary) public view returns (
         address,
+        address[] memory,
+        uint256,
         uint256,
         string memory
     ){
         return (
             trustor,
+            trustees,
+            beneficiaries[beneficiary],
             totalAmount,
             trustName
         );
@@ -134,7 +143,7 @@ contract EstatePlanning { //the contracts block
 
         //require(address(this).balance >=);
 
-        //require(isRevoked == false);
+       // require(activeStatus != false);
 
         _;
 
@@ -145,6 +154,8 @@ contract EstatePlanning { //the contracts block
     modifier restricted2() {
 
         require(msg.sender == trustor);
+
+        // require(activeStatus != false);
 
         // require(isRevoked);
 
