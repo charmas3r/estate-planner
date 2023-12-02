@@ -48,6 +48,7 @@ export default function Home() {
                             trusts.map(async (address: string) => {
                                 const details = await getTrustDetails(address, web3);
                                 let contractDto = new TrustContractDtoImpl(
+                                    address,
                                     details[0],
                                     details[1],
                                     details[2]

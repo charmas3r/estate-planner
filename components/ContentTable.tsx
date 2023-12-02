@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {useRouter} from 'next/navigation'
 import {ContractProps} from "@/pages";
-import {TrustContractDto} from "@/data/TrustContractDto";
 
 export const ContentTable = ({contracts}: ContractProps) => {
     const router = useRouter()
@@ -13,7 +12,7 @@ export const ContentTable = ({contracts}: ContractProps) => {
                 <thead>
                 <tr>
                     <th>Trust name</th>
-                    <th>Trust creator</th>
+                    <th>Trust address</th>
                     <th>Trust balance</th>
                     <th>Active status</th>
                     <th></th>
@@ -33,7 +32,7 @@ export const ContentTable = ({contracts}: ContractProps) => {
                                     </div>
                                 </div>
                             </td>
-                            <td> {item.trustor} </td>
+                            <td> {item.address} </td>
                             <td> {item.balance.toString()}
                                 <br/>
                                 <span className="badge badge-ghost badge-sm">Eth</span>
@@ -41,11 +40,12 @@ export const ContentTable = ({contracts}: ContractProps) => {
                             <td><span className="badge badge-success badge-sm">Active</span></td>
                             <th>
                                 <button className="btn btn-ghost btn-xs rounded-xl"
-                                        onClick={() => router.push(`/details/0x1234}`)}>details
+                                        onClick={() => router.push(`/details/${item.address}`)}>details
                                 </button>
                             </th>
                             <th>
-                                <button className="btn btn-ghost btn-xs rounded-xl">edit</button>
+                                <button className="btn btn-ghost btn-xs rounded-xl"
+                                        onClick={() => router.push(`/edit/${item.address}`)}>edit</button>
                             </th>
                             <th>
                                 <button className="btn btn-ghost btn-circle">
