@@ -6,18 +6,30 @@ import {ContentTable} from "@/components/ContentTable";
 import {CreateButton} from "@/components/CreateButton";
 import {getTrusts} from "@/data/EstatePlanningFactoryApi";
 import {getTrustDetails} from "@/data/EstatePlanningApi";
+import {TrustContractDto, TrustContractDtoImpl} from "@/data/TrustContractDto";
 
 interface PrimaryAccount {
     account: string;
 }
 
+export interface ContractProps {
+    contracts: TrustContractDto[]
+}
+
 export default function Home() {
     const [account, setAccount]
         = useState<PrimaryAccount>({account: ''});
+    const [contracts, setContracts]
+        = useState<TrustContractDto[]>([]);
+
     let accounts;
     let primary: PrimaryAccount = new class implements PrimaryAccount {
         account: string;
     };
+
+    let contractProps: ContractProps = new class implements ContractProps {
+        contracts: TrustContractDto[];
+    }
 
     useEffect(() => {
         const fetchAccount = async () => {
@@ -30,11 +42,23 @@ export default function Home() {
                         setAccount(primary);
                         console.log("Primary account on MetaMask: " + primary.account);
                         const trusts = await getTrusts(web3);
+                        contractProps.contracts = new Array<TrustContractDto>()
 
-                        trusts.map(async (address: string) => {
-                            const details = await getTrustDetails(address, web3);
-                            console.log(details)
-                        });
+                        await Promise.all(
+                            trusts.map(async (address: string) => {
+                                const details = await getTrustDetails(address, web3);
+                                let contractDto = new TrustContractDtoImpl(
+                                    address,
+                                    details[0],
+                                    details[1],
+                                    details[2]
+                                )
+                                contractProps.contracts.push(contractDto)
+                                console.log(contractDto)
+                            })
+                        );
+
+                        setContracts(contractProps.contracts)
 
                         window.ethereum.on("accountsChanged", async (accounts: any[]) => {
                             // handle account change
@@ -81,7 +105,7 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="hero-content text-center text-neutral-content mt-40">
-                            <ContentTable/>
+                            <ContentTable contracts={contracts}/>
                         </div>
                     </div>
                 </div>
