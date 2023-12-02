@@ -124,14 +124,16 @@ contract EstatePlanning { //the contracts block
         address[] memory,
         uint256,
         uint256,
-        string memory
+        string memory,
+        bool
     ){
         return (
             trustor,
             trustees,
             beneficiaries[beneficiary],
             totalAmount,
-            trustName
+            trustName,
+            activeStatus
         );
     }
 
