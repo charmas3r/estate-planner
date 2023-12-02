@@ -71,6 +71,7 @@ export default function Home() {
                         window.ethereum.on("disconnect", () => {
                             // handle metamask logout
                             console.log("disconnected from MetaMask");
+                            // @ts-ignore
                             setAccount(null);
                         });
                     })
