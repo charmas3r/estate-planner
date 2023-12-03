@@ -100,13 +100,19 @@ export default function Home() {
                         <div className="hero-overlay bg-opacity-20">
                             <h1 className="text-xl md:text-2xl lg:text-3xl font-bold font text-center mt-5 lg:mt-20 mr-5 ml-5">Estate
                                 Planning dApp</h1>
-                            <div className="flex flex-col w-full gap-10 lg:gap-40 lg:flex-row mt-20 ml-20">
-                                <SearchBar/>
-                                <CreateButton/>
-                            </div>
                         </div>
                         <div className="hero-content text-center text-neutral-content mt-40">
-                            <ContentTable contracts={contracts}/>
+                            <div className="grid grid-flow-row-dense grid-cols-3 grid-rows-3">
+                                <div className="col-span-2">
+                                    <SearchBar/>
+                                </div>
+                                <div>
+                                    <CreateButton/>
+                                </div>
+                                <div className="col-span-3">
+                                    <ContentTable contracts={contracts}/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

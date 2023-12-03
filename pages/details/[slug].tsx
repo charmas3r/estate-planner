@@ -19,7 +19,6 @@ const DetailsPage = () => {
                                         away so we can get to you as soon as today! We’re just a click away.</p>
                                     <div className="card-actions justify-end">
                                         <button className="btn btn-primary"> EDIT</button>
-                                        <button className="btn btn-warning"> DEACTIVATE</button>
                                     </div>
                                 </div>
                             </div>
