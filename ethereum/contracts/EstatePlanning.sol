@@ -51,7 +51,7 @@ contract EstatePlanning { //the contracts block
     //The constructor
 
     //This is the new function to pay the beneficiaries, only accessed by trustor
-   // function payBeneficiaries(uint256 reward)public restricted2 {
+   // function payBeneficiaries(uint256 reward)public requireTrustorOnly {
     //for(uint256 i = 0; i < numOfBeneficiaries; i++){
        // address payable beneficiarypay = payable(beneficiaries);
       //  beneficiarypay.transfer((totalAmount[beneficiarypay] * payPercentage)/ 100.0);
@@ -153,7 +153,7 @@ contract EstatePlanning { //the contracts block
 
     //restricted modifiers for admin, address, amount, status not revoke
 
-    modifier restricted1() {
+    modifier requireAdminOnly() {
 
         require(msg.sender == admin);
 
@@ -167,7 +167,7 @@ contract EstatePlanning { //the contracts block
 
     //set trustee active status(restricted, contracts is in revokeable state, is actually trustor)
 
-    modifier restricted2() {
+    modifier requireTrustorOnly() {
 
         require(msg.sender == trustor);
 
@@ -194,10 +194,14 @@ contract EstatePlanning { //the contracts block
 
     //adding trustees
 
-    function addTrustees(address [] memory trustee) public restricted2 {
+    function addTrustees(address [] memory trustee) public requireAdminOnly {
 
         trustees = trustee;
 
     }
 
 }
+
+   
+
+    
