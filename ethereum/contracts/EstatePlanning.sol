@@ -28,10 +28,13 @@ contract EstatePlanning { //the contracts block
 
     address[] trustees;
 
-    mapping(address => uint) public beneficiaries;
+    mapping(address => uint) public  beneficiaries;
+    uint256 numOfBeneficiaries;//new change
 
 
     uint totalAmount;
+
+    uint256 public payPercentage;//new change
 
     string trustName;//keyword
 
@@ -46,6 +49,15 @@ contract EstatePlanning { //the contracts block
 
     //the functions
     //The constructor
+
+    //This is the new function to pay the beneficiaries, only accessed by trustor
+   // function payBeneficiaries(uint256 reward)public restricted2 {
+    //for(uint256 i = 0; i < numOfBeneficiaries; i++){
+       // address payable beneficiarypay = payable(beneficiaries);
+      //  beneficiarypay.transfer((totalAmount[beneficiarypay] * payPercentage)/ 100.0);
+   // }
+   //}
+   
 
     constructor(string memory _trustName) payable {
         trustor = msg.sender;
@@ -125,7 +137,8 @@ contract EstatePlanning { //the contracts block
         uint256,
         uint256,
         string memory,
-        bool
+        bool,
+        uint256
     ){
         return (
             trustor,
@@ -133,7 +146,8 @@ contract EstatePlanning { //the contracts block
             beneficiaries[beneficiary],
             totalAmount,
             trustName,
-            activeStatus
+            activeStatus,
+            payPercentage
         );
     }
 
@@ -174,6 +188,7 @@ contract EstatePlanning { //the contracts block
     function addBeneficiaries(address beneficiary, uint num) public {
 
         beneficiaries[beneficiary] = num;
+        numOfBeneficiaries++;
 
     }
 
