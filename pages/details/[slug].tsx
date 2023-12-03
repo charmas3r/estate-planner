@@ -2,44 +2,12 @@ import React, {useEffect, useState} from "react";
 import {Footer} from "@/components/Footer";
 import {TrustContractDto, TrustContractDtoImpl} from "@/data/TrustContractDto";
 import {Web3} from "web3";
-import {FactoryContractProps, PrimaryAccount} from "@/pages";
+import {PrimaryAccount} from "@/pages";
 import {useRouter} from "next/router";
 import {getTrustDetails} from "@/data/EstatePlanningApi";
 
 export interface ContractProps {
     contract: TrustContractDto
-}
-
-class MainEditContent extends React.Component {
-    render() {
-        return <main>
-            <div
-                className="hero from-primary to-accent text-primary-content min-h-screen bg-gradient-to-br py-10 lg:py-20 ">
-                <div className="hero-content flex-col lg:flex-row my-10 lg:my-20">
-                    <div>
-                        <div>
-                            <h2 className="mt-4 mb-2 text-4xl font-extrabold md:text-6xl">See your trust
-                                details</h2>
-                        </div>
-                        <div className="py-6">You can see all the details of your trust here.</div>
-                        <div className="card glass bg-opacity-60 text-primary-content m-auto">
-                            <div className="card-body">
-                                <h1 className="mb-5 text-5xl font-bold card-title">Get help now</h1>
-                                <p className="mb-5">Fast, reliable service at your fingertips! Get in contact
-                                    with
-                                    us right
-                                    away so we can get to you as soon as today! We’re just a click away.</p>
-                                <div className="card-actions justify-end">
-                                    <button className="btn btn-primary"> EDIT</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </main>;
-    }
 }
 
 const DetailsPage = () => {
@@ -131,13 +99,76 @@ const DetailsPage = () => {
                     </svg>
                     <span>{error}</span>
                 </div>
-                <MainEditContent/>
+                {/*<MainEditContent/>*/}
             </div>
         )
     } else {
         return (
             <div className="bg-base-100">
-                <MainEditContent/>
+                <main>
+                    <div
+                        className="hero from-primary to-accent text-primary-content min-h-screen bg-gradient-to-br py-10 lg:py-20 ">
+                        <div className="hero-content flex-col lg:flex-row my-10 lg:my-20">
+                            <div>
+                                <div>
+                                    <h2 className="mt-4 mb-2 text-4xl font-extrabold md:text-6xl">See your trust
+                                        details</h2>
+                                </div>
+                                <div className="py-6">You can see all the details of your trust here.</div>
+                                <div className="card glass bg-opacity-60 text-primary-content m-auto">
+                                    <div className="card-body">
+                                        {/*<div className="card-actions justify-start">*/}
+                                        {/*    <button className="btn btn-circle btn-success">*/}
+                                        {/*        <p className="text-xs text-white">ACTIVE</p>*/}
+                                        {/*    </button>*/}
+                                        {/*</div>*/}
+                                        <h1 className="mb-5 text-5xl font-bold card-title">{contract?.name}</h1>
+                                        <h5 className="text-xl card-title">Contract address:</h5>
+                                        <ul className="list-none">
+                                            <li>{contract?.address}</li>
+                                        </ul>
+                                        <br/>
+                                        <h5 className="text-xl card-title">Trust Creator address:</h5>
+                                        <ul className="list-none">
+                                            <li>{contract?.trustor}</li>
+                                        </ul>
+                                        <br/>
+                                        <h5 className="text-xl card-title">Current balance in trust:</h5>
+                                        <ul className="list-none">
+                                            <li>{contract?.balance.toString()} Eth</li>
+                                        </ul>
+                                        <br/>
+                                        <h5 className="text-xl card-title">Beneficiaries:</h5>
+                                        <ul className="list-none">
+                                            <li></li>
+                                        </ul>
+                                        <br/>
+                                        <h5 className="text-xl card-title">Trustees:</h5>
+                                        <ul className="list-none">
+                                            <li></li>
+                                        </ul>
+                                        <br/>
+                                        <div className="card-actions justify-end">
+                                            <button className="btn btn-primary">EDIT</button>
+                                        </div>
+                                    </div>
+                                    {/*Error card*/}
+                                    {/*<div className="card-body">*/}
+                                    {/*    <h1 className="mb-5 text-5xl font-bold card-title">Get help now</h1>*/}
+                                    {/*    <p className="mb-5">Fast, reliable service at your fingertips! Get in contact*/}
+                                    {/*        with*/}
+                                    {/*        us right*/}
+                                    {/*        away so we can get to you as soon as today! We’re just a click away.</p>*/}
+                                    {/*    <div className="card-actions justify-end">*/}
+                                    {/*        <button className="btn btn-primary"> EDIT</button>*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
                 <Footer/>
             </div>
         );
