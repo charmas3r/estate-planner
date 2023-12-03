@@ -1,8 +1,8 @@
 import Image from "next/image";
 import {useRouter} from 'next/navigation'
-import {ContractProps} from "@/pages";
+import {FactoryContractProps} from "@/pages";
 
-export const ContentTable = ({contracts}: ContractProps) => {
+export const ContentTable = ({contracts}: FactoryContractProps) => {
     const router = useRouter()
 
     return (

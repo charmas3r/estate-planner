@@ -8,11 +8,11 @@ import {getTrusts} from "@/data/EstatePlanningFactoryApi";
 import {getTrustDetails} from "@/data/EstatePlanningApi";
 import {TrustContractDto, TrustContractDtoImpl} from "@/data/TrustContractDto";
 
-interface PrimaryAccount {
+export interface PrimaryAccount {
     account: string;
 }
 
-export interface ContractProps {
+export interface FactoryContractProps {
     contracts: TrustContractDto[]
 }
 
@@ -27,7 +27,7 @@ export default function Home() {
         account: string;
     };
 
-    let contractProps: ContractProps = new class implements ContractProps {
+    let factoryContractProps: FactoryContractProps = new class implements FactoryContractProps {
         contracts: TrustContractDto[];
     }
 
@@ -42,7 +42,7 @@ export default function Home() {
                         setAccount(primary);
                         console.log("Primary account on MetaMask: " + primary.account);
                         const trusts = await getTrusts(web3);
-                        contractProps.contracts = new Array<TrustContractDto>()
+                        factoryContractProps.contracts = new Array<TrustContractDto>()
 
                         await Promise.all(
                             trusts.map(async (address: string) => {
@@ -53,12 +53,12 @@ export default function Home() {
                                     details[1],
                                     details[2]
                                 )
-                                contractProps.contracts.push(contractDto)
+                                factoryContractProps.contracts.push(contractDto)
                                 console.log(contractDto)
                             })
                         );
 
-                        setContracts(contractProps.contracts)
+                        setContracts(factoryContractProps.contracts)
 
                         window.ethereum.on("accountsChanged", async (accounts: any[]) => {
                             // handle account change
