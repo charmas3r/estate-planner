@@ -22,13 +22,19 @@ contract EstatePlanning { //the contracts block
 
     //The variables
 
+    //string[2] owner = ["admin","trustor"];
+
     address public admin;// only one admin
 
     address public trustor;
+    
+    address Owner1 = admin;//for require
+    address Owner2 = payable( trustor);//for require
 
     address[] trustees;
 
-    mapping(address => uint) public  beneficiaries;
+    mapping(address => uint) public  beneficiariesPercentage;
+    address[] beneficiaries;//new change created the array of beneficiaries
     uint256 numOfBeneficiaries;//new change
 
 
@@ -49,6 +55,38 @@ contract EstatePlanning { //the contracts block
 
     //the functions
     //The constructor
+
+    //This is the new pay function
+    function payoutTrust() public { 
+        require (msg.sender == Owner1 || msg.sender == Owner2);// admin and trustor both 
+        uint256 arrayLength = beneficiaries.length;
+        for (uint256 i = 0; i < arrayLength; i++) { 
+    // payout the contract to all beneficiaries... 
+        address payable payoutAddress = payable(beneficiaries[i]); 
+    // get the percentage assigned to this beneficiary 
+        uint256 percentage = beneficiariesPercentage[payoutAddress];
+     // finish the payout ... 
+        payoutAddress.transfer(address(this).balance * percentage / 100.0);
+     } 
+     }
+
+
+    /*function payNow(address beneficiary) public { 
+        uint arrayLength = beneficiaries.length;
+         for (uint i=0; i<arrayLength; i++)
+          { if (beneficiaries[i] == beneficiary)
+           { // payout the contract. 
+           address payable payoutAddress = payable(beneficiaries[i]); 
+           payoutAddress.transfer(address(this).balance);
+            } 
+            } 
+            }*/
+
+   /* function payNow(address payable beneficiary) public payable {
+        require (msg.sender == Owner1 || msg.sender == Owner2);// admin and trustor both 
+        beneficiary.transfer(address(this).balance);
+        
+    }*/
 
     //This is the new function to pay the beneficiaries, only accessed by trustor
    // function payBeneficiaries(uint256 reward)public requireTrustorOnly {
@@ -117,14 +155,13 @@ contract EstatePlanning { //the contracts block
     //getters and setters for beneficiaries
 
     function setBeneficiaries(address beneficiary, uint num) public {
-
-        beneficiaries[beneficiary] = num;
-
+        beneficiariesPercentage[beneficiary] = num;
+        beneficiaries.push(beneficiary); 
     }
 
     function getBeneficiaries(address beneficiary) public view returns (uint) {
 
-        return beneficiaries[beneficiary];
+        return beneficiariesPercentage[beneficiary];
 
     }
 
@@ -137,17 +174,15 @@ contract EstatePlanning { //the contracts block
         uint256,
         uint256,
         string memory,
-        bool,
-        uint256
+        bool
     ){
         return (
             trustor,
             trustees,
-            beneficiaries[beneficiary],
+            beneficiariesPercentage[beneficiary],//percentage details
             totalAmount,
             trustName,
-            activeStatus,
-            payPercentage
+            activeStatus
         );
     }
 
@@ -185,16 +220,16 @@ contract EstatePlanning { //the contracts block
 
     //adding beneficiaries
 
-    function addBeneficiaries(address beneficiary, uint num) public {
+   /* function addBeneficiaries(address beneficiary, uint num) public {
 
-        beneficiaries[beneficiary] = num;
+        beneficiariesPercentage[beneficiary] = num;
         numOfBeneficiaries++;
 
-    }
+    }*/
 
     //adding trustees
 
-    function addTrustees(address [] memory trustee) public requireAdminOnly {
+    function addTrustees(address [] memory trustee) public payable requireAdminOnly {
 
         trustees = trustee;
 
