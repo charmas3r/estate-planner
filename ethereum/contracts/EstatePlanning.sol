@@ -21,9 +21,9 @@ contract EstatePlanningFactory {
     }
 
     function getDeployedTrustContract()
-        public
-        view
-        returns (EstatePlanning[] memory)
+    public
+    view
+    returns (EstatePlanning[] memory)
     {
         return deployedContracts;
     }
@@ -132,10 +132,10 @@ contract EstatePlanning {
     }
 
     function getTrustor()
-        public
-        view
-        requireAdminTrustorOnly
-        returns (address)
+    public
+    view
+    requireAdminTrustorOnly
+    returns (address)
     {
         return trustor;
     }
@@ -143,10 +143,10 @@ contract EstatePlanning {
     //getters for trustees
 
     function getTrustees()
-        public
-        view
-        requireAdminTrustorOnly
-        returns (address[] memory)
+    public
+    view
+    requireAdminTrustorOnly
+    returns (address[] memory)
     {
         return trustees;
     }
@@ -154,8 +154,8 @@ contract EstatePlanning {
     //getters and setters for beneficiaries
 
     function setBeneficiaries(address beneficiary, uint256 num)
-        public
-        requireTrustorOnly
+    public
+    requireTrustorOnly
     {
         beneficiariesPercentage[beneficiary] = num;
         beneficiaries.push(beneficiary);
@@ -163,10 +163,10 @@ contract EstatePlanning {
     }
 
     function getBeneficiaries()
-        public
-        view
-        requireAdminTrustorOnly
-        returns (address[] memory)
+    public
+    view
+    requireAdminTrustorOnly
+    returns (address[] memory)
     {
         return beneficiaries;
     }
@@ -175,19 +175,18 @@ contract EstatePlanning {
     // TODO complete this method.
     // So far trustor, trustees, beneficiaries, totalAmount, trustName is added to be returned
     function getTrustDetails()
-        public
-        view
-        requireAdminTrustorOnly
-        returns (
-            address,
-            address[] memory,
-            uint256,
-            string memory,
-            bool,
-            address[] memory,
-            uint256[] memory,
-            bool
-        )
+    public
+    view
+    returns (
+        address,
+        address[] memory,
+        uint256,
+        string memory,
+        bool,
+        address[] memory,
+        uint256[] memory,
+        bool
+    )
     {
         return (
             trustor,
@@ -231,9 +230,9 @@ contract EstatePlanning {
     //adding trustees
 
     function setTrustees(address[] memory trustee)
-        public
-        payable
-        requireTrustorOnly
+    public
+    payable
+    requireTrustorOnly
     {
         trustees = trustee;
     }

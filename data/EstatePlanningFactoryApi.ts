@@ -12,5 +12,5 @@ export async function getTrusts<CustomRegisteredSubscription>(
     return await new web3.eth.Contract(
         factoryAbi,
         factoryAddress,
-    ).methods.getDeployedCampaigns().call();
+    ).methods.getDeployedTrustContract().call();
 }

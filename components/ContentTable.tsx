@@ -33,7 +33,7 @@ export const ContentTable = ({contracts}: FactoryContractProps) => {
                                 </div>
                             </td>
                             <td> {item.address} </td>
-                            <td> {item.balance.toString()}
+                            <td> {item.balance}
                                 <br/>
                                 <span className="badge badge-ghost badge-sm">Eth</span>
                             </td>

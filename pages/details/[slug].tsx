@@ -41,11 +41,23 @@ const DetailsPage = () => {
                             try {
                                 const details = await getTrustDetails(slug, web3);
                                 if (typeof slug === "string") {
-                                    const contractDto = new TrustContractDtoImpl(
+                                    const details = await getTrustDetails(slug, web3);
+                                    const balance = web3.utils.fromWei(details[2], "ether")
+                                    let contractDto = new TrustContractDtoImpl(
                                         slug,
+                                        // trustor
                                         details[0],
+                                        // trustees
                                         details[1],
-                                        details[2]
+                                        // balance
+                                        balance,
+                                        // name
+                                        details[3],
+                                        // active status
+                                        details[4],
+                                        details[5],
+                                        details[6],
+                                        false,
                                     )
                                     console.log(contractDto)
                                     setContract(contractDto)
@@ -123,29 +135,62 @@ const DetailsPage = () => {
                                         {/*    </button>*/}
                                         {/*</div>*/}
                                         <h1 className="mb-5 text-5xl font-bold card-title">{contract?.name}</h1>
-                                        <h5 className="text-xl card-title">Contract address:</h5>
+                                        <div className="lg:tooltip tooltip-info"
+                                             data-tip="This means the contract has been set to a irrevokable status and is payable by either the trust creator or the admin.">
+                                            <h5 className="text-xl card-title">Revokable status:</h5>
+                                        </div>
+                                        <ul className="list-none">
+                                            <li>Is revoked: {contract?.isRevoked.toString()}</li>
+                                        </ul>
+                                        <br/>
+                                        <div className="lg:tooltip tooltip-info"
+                                             data-tip="This is the address of the contract.">
+                                            <h5 className="text-xl card-title">Contract address:</h5>
+                                        </div>
                                         <ul className="list-none">
                                             <li>{contract?.address}</li>
                                         </ul>
                                         <br/>
-                                        <h5 className="text-xl card-title">Trust Creator address:</h5>
+                                        <div className="lg:tooltip tooltip-info"
+                                             data-tip="This is the address of the account which created the trust. This is called the trustor">
+                                            <h5 className="text-xl card-title">Trust Creator address:</h5>
+                                        </div>
                                         <ul className="list-none">
                                             <li>{contract?.trustor}</li>
                                         </ul>
                                         <br/>
-                                        <h5 className="text-xl card-title">Current balance in trust:</h5>
+                                        <div className="lg:tooltip tooltip-info"
+                                             data-tip="This is the total balance held in this trust.">
+                                            <h5 className="text-xl card-title">Current balance in trust:</h5>
+                                        </div>
                                         <ul className="list-none">
-                                            <li>{contract?.balance.toString()} Eth</li>
+                                            <li>{contract?.balance} Eth</li>
                                         </ul>
                                         <br/>
-                                        <h5 className="text-xl card-title">Beneficiaries:</h5>
+                                        <div className="lg:tooltip tooltip-info"
+                                             data-tip="These are the beneficiaries addresses and what percentage of the total balance they will earn.">
+                                            <h5 className="text-xl card-title">Beneficiaries:</h5>
+                                        </div>
                                         <ul className="list-none">
-                                            <li></li>
+                                            {
+                                                contract?.beneficiaries.map((item, index) => {
+                                                    return (
+                                                        <div key={index}>
+                                                            <li>{item} : {contract?.percentages[index].toString()}%</li>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
                                         </ul>
                                         <br/>
-                                        <h5 className="text-xl card-title">Trustees:</h5>
+                                        <div className="lg:tooltip tooltip-info"
+                                             data-tip="These are the trustees addresses. They are resposible for revoking the trust.">
+                                            <h5 className="text-xl card-title">Trustees:</h5>
+                                        </div>
                                         <ul className="list-none">
-                                            <li></li>
+                                            {contract?.trustees.map((address) => {
+                                                return (<li key={address}>{address}</li>)
+                                            })}
                                         </ul>
                                         <br/>
                                         <div className="card-actions justify-end">

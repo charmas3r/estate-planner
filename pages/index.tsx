@@ -21,7 +21,9 @@ export default function Home() {
     const [contracts, setContracts]
         = useState<TrustContractDto[]>([]);
     const [searchContract, setSearchContract]
-        = useState<TrustContractDto>()
+        = useState<TrustContractDto>();
+    const [error, setError] = useState<string>();
+    const [isLoading, setLoading] = useState<boolean>();
 
     let accounts;
     let primary: PrimaryAccount = new class implements PrimaryAccount {
@@ -39,6 +41,7 @@ export default function Home() {
                 }
             });
         } else {
+            // @ts-ignore
             setSearchContract(null)
         }
     }
@@ -48,6 +51,7 @@ export default function Home() {
             try {
                 window.ethereum.enable()
                     .then(async () => {
+                        setLoading(true)
                         const web3 = new Web3(window.ethereum);
                         accounts = await web3.eth.getAccounts();
                         primary.account = accounts[0];
@@ -58,12 +62,25 @@ export default function Home() {
 
                         await Promise.all(
                             trusts.map(async (address: string) => {
+                                console.log("getting trust at " + address);
                                 const details = await getTrustDetails(address, web3);
+                                console.log(details)
+                                const balance = web3.utils.fromWei(details[2], "ether")
                                 let contractDto = new TrustContractDtoImpl(
                                     address,
+                                    // trustor
                                     details[0],
+                                    // trustees
                                     details[1],
-                                    details[2]
+                                    // balance
+                                    balance,
+                                    // name
+                                    details[3],
+                                    // active status
+                                    details[4],
+                                    details[5],
+                                    details[6],
+                                    false,
                                 )
                                 factoryContractProps.contracts.push(contractDto)
                                 console.log(contractDto)
@@ -71,6 +88,7 @@ export default function Home() {
                         );
 
                         setContracts(factoryContractProps.contracts)
+                        setLoading(false)
 
                         window.ethereum.on("accountsChanged", async (accounts: any[]) => {
                             // handle account change
@@ -90,13 +108,17 @@ export default function Home() {
             } catch (error) {
                 if (error instanceof Error) {
                     if (error.message === "User denied account authorization") {
+                        console.log("User denied account authorization")
                         // handle the case where the user denied the connection request
                     } else if (error.message === "MetaMask is not enabled") {
-                        // handle the case where MetaMask is not available
+                        console.log("metamask not enabled")
+                        setError("metamask not enabled")
                     } else {
                         // handle other errors
+                        console.log("Some general error: " + error.message);
                     }
                 }
+                setLoading(false)
             }
         };
         fetchAccount()
