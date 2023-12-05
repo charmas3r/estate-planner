@@ -111,7 +111,6 @@ const DetailsPage = () => {
                     </svg>
                     <span>{error}</span>
                 </div>
-                {/*<MainEditContent/>*/}
             </div>
         )
     } else {
@@ -194,20 +193,11 @@ const DetailsPage = () => {
                                         </ul>
                                         <br/>
                                         <div className="card-actions justify-end">
-                                            <button className="btn btn-primary">EDIT</button>
+                                            <button className="btn btn-primary" onClick={
+                                                () => router.push(`/edit/${contract?.address}`)
+                                            }>edit</button>
                                         </div>
                                     </div>
-                                    {/*Error card*/}
-                                    {/*<div className="card-body">*/}
-                                    {/*    <h1 className="mb-5 text-5xl font-bold card-title">Get help now</h1>*/}
-                                    {/*    <p className="mb-5">Fast, reliable service at your fingertips! Get in contact*/}
-                                    {/*        with*/}
-                                    {/*        us right*/}
-                                    {/*        away so we can get to you as soon as today! We’re just a click away.</p>*/}
-                                    {/*    <div className="card-actions justify-end">*/}
-                                    {/*        <button className="btn btn-primary"> EDIT</button>*/}
-                                    {/*    </div>*/}
-                                    {/*</div>*/}
                                 </div>
 
                             </div>

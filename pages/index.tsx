@@ -6,6 +6,7 @@ import {CreateButton} from "@/components/CreateButton";
 import {getTrusts} from "@/data/EstatePlanningFactoryApi";
 import {getTrustDetails} from "@/data/EstatePlanningApi";
 import {TrustContractDto, TrustContractDtoImpl} from "@/data/TrustContractDto";
+import {useRouter} from "next/navigation";
 
 export interface PrimaryAccount {
     account: string;
@@ -32,6 +33,8 @@ export default function Home() {
     let factoryContractProps: FactoryContractProps = new class implements FactoryContractProps {
         contracts: TrustContractDto[];
     }
+
+    const router = useRouter()
 
     function onSearchAction(searchAddress: string) {
         if (searchAddress.length > 0) {
@@ -166,60 +169,62 @@ export default function Home() {
         )
     } else {
         return (
-        <div className="bg-base-100">
-            <main>
-                <div
-                    className="from-base-100 to-secondary text-primary-content -mt-[4rem] grid place-items-center items-end bg-gradient-to-br pt-16">
-                    <div className="hero mx-4 h-full w-full bg-fixed min-h-screen">
-                        <div className="hero-overlay bg-opacity-20">
-                            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold font text-center mt-5 lg:mt-20 mr-5 ml-5">Estate
-                                Planning dApp</h1>
-                        </div>
-                        <div className="hero-content text-center text-neutral-content mt-40">
+            <div className="bg-base-100">
+                <main>
+                    <div
+                        className="from-base-100 to-secondary text-primary-content -mt-[4rem] grid place-items-center items-end bg-gradient-to-br pt-16">
+                        <div className="hero mx-4 h-full w-full bg-fixed min-h-screen">
+                            <div className="hero-overlay bg-opacity-20">
+                                <h1 className="text-xl md:text-2xl lg:text-3xl font-bold font text-center mt-5 lg:mt-20 mr-5 ml-5">Estate
+                                    Planning dApp</h1>
+                            </div>
+                            <div className="hero-content text-center text-neutral-content mt-40">
 
-                            <div className="grid grid-flow-row-dense grid-cols-3 grid-rows-1">
-                                <div className="col-span-2">
-                                    <div className="form-control">
-                                        <div className="input-group">
-                                            <input type="search"
-                                                   placeholder="Search for trust address"
-                                                   className="input text-slate-400 w-full max-w-md rounded-2xl"
-                                                   onChange={(e) => {
-                                                       onSearchAction(e.target.value);
-                                                   }}/>
+                                <div className="grid grid-flow-row-dense grid-cols-3 grid-rows-1">
+                                    <div className="col-span-2">
+                                        <div className="form-control">
+                                            <div className="input-group">
+                                                <input type="search"
+                                                       placeholder="Search for trust address"
+                                                       className="input text-slate-400 w-full max-w-md rounded-2xl"
+                                                       onChange={(e) => {
+                                                           onSearchAction(e.target.value);
+                                                       }}/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <CreateButton/>
-                                </div>
-                                <div className="col-span-3">
                                     <div>
-                                        <h2 className="mt-20 mb-2 text-4xl font-extrabold md:text-6xl">Contract found</h2>
-                                        <br/>
+                                        <CreateButton/>
                                     </div>
-                                    <div className="card glass bg-opacity-60 text-primary-content m-auto">
-                                        <div className="card-body">
-                                            <h1 className="mb-5 text-5xl font-bold card-title">{searchContract?.name}</h1>
-                                            <h5 className="text-xl card-title">Contract address:</h5>
-                                            <ul className="list-none">
-                                                <li>{searchContract?.address}</li>
-                                            </ul>
+                                    <div className="col-span-3">
+                                        <div>
+                                            <h2 className="mt-20 mb-2 text-4xl font-extrabold md:text-6xl">Contract
+                                                found</h2>
                                             <br/>
-                                            <div className="card-actions justify-end">
-                                                <button className="btn btn-primary">Go to details</button>
-                                                <button className="btn btn-warning">Edit this contract</button>                                            </div>
                                         </div>
-                                    </div>
+                                        <div className="card glass bg-opacity-60 text-primary-content m-auto">
+                                            <div className="card-body">
+                                                <h1 className="mb-5 text-5xl font-bold card-title">{searchContract?.name}</h1>
+                                                <h5 className="text-xl card-title">Contract address:</h5>
+                                                <ul className="list-none">
+                                                    <li>{searchContract?.address}</li>
+                                                </ul>
+                                                <br/>
+                                                <div className="card-actions justify-end">
+                                                    <button className="btn btn-primary" onClick={() => router.push(`/details/${searchContract?.address}`)}>Go to details</button>
+                                                    <button className="btn btn-warning" onClick={() => router.push(`/edit/${searchContract?.address}`)}>Edit this contract</button>
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </main>
-            <Footer/>
-        </div>
+                </main>
+                <Footer/>
+            </div>
         )
     }
 }
