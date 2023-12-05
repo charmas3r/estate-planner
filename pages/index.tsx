@@ -65,9 +65,7 @@ export default function Home() {
 
                         await Promise.all(
                             trusts.map(async (address: string) => {
-                                console.log("getting trust at " + address);
                                 const details = await getTrustDetails(address, web3);
-                                console.log(details)
                                 const balance = web3.utils.fromWei(details[2], "ether")
                                 let contractDto = new TrustContractDtoImpl(
                                     address,
