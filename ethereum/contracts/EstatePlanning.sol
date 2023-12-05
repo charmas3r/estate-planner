@@ -71,7 +71,7 @@ contract EstatePlanning { //the contracts block
 
     //the destructor
 
-    function deleteContract() requireTrustorOnly returns(bool) {
+    function deleteContract() private requireTrustorOnly returns(bool) {
         selfdestruct(payable(trustor));//typecast to payable bcuz not supported after 0.8.0
         activeStatus = false;//The contract is no longer active
         return activeStatus;
@@ -137,7 +137,7 @@ contract EstatePlanning { //the contracts block
         uint256,
         string memory,
         bool,
-        address[]
+        address[] memory
     ){
         return (
             trustor,
@@ -193,7 +193,3 @@ contract EstatePlanning { //the contracts block
     }
 
 }
-
-   
-
-    
