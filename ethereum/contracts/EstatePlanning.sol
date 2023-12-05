@@ -18,47 +18,38 @@ contract EstatePlanningFactory {
 
 contract EstatePlanning { //the contracts block
 
-    //new contracts
 
     //The variables
 
-    //string[2] owner = ["admin","trustor"];
-
-    address public admin;// only one admin
+    address  admin;// only one admin
 
     address public trustor;
     
-    address Owner1 = admin;//for require
-    address Owner2 = payable( trustor);//for require
 
     address[] trustees;
 
     mapping(address => uint) public  beneficiariesPercentage;
     address[] beneficiaries;//new change created the array of beneficiaries
-    uint256 numOfBeneficiaries;//new change
-
+    
 
     uint totalAmount;
 
-    uint256 public payPercentage;//new change
-
     string trustName;//keyword
 
-    bool isRevoked;
 
     bool activeStatus = true;
 
 
     mapping(address => bool) activeTrustor;
 
-    mapping(address => uint) trustes;
 
     //the functions
-    //The constructor
+
+    
 
     //This is the new pay function
     function payoutTrust() public { 
-        require (msg.sender == Owner1 || msg.sender == Owner2);// admin and trustor both 
+        require (msg.sender == admin || msg.sender == trustor);// admin and trustor both 
         uint256 arrayLength = beneficiaries.length;
         for (uint256 i = 0; i < arrayLength; i++) { 
     // payout the contract to all beneficiaries... 
@@ -70,32 +61,8 @@ contract EstatePlanning { //the contracts block
      } 
      }
 
-
-    /*function payNow(address beneficiary) public { 
-        uint arrayLength = beneficiaries.length;
-         for (uint i=0; i<arrayLength; i++)
-          { if (beneficiaries[i] == beneficiary)
-           { // payout the contract. 
-           address payable payoutAddress = payable(beneficiaries[i]); 
-           payoutAddress.transfer(address(this).balance);
-            } 
-            } 
-            }*/
-
-   /* function payNow(address payable beneficiary) public payable {
-        require (msg.sender == Owner1 || msg.sender == Owner2);// admin and trustor both 
-        beneficiary.transfer(address(this).balance);
-        
-    }*/
-
-    //This is the new function to pay the beneficiaries, only accessed by trustor
-   // function payBeneficiaries(uint256 reward)public requireTrustorOnly {
-    //for(uint256 i = 0; i < numOfBeneficiaries; i++){
-       // address payable beneficiarypay = payable(beneficiaries);
-      //  beneficiarypay.transfer((totalAmount[beneficiarypay] * payPercentage)/ 100.0);
-   // }
-   //}
    
+//The constructor
 
     constructor(string memory _trustName) payable {
         trustor = msg.sender;
@@ -104,7 +71,7 @@ contract EstatePlanning { //the contracts block
 
     //the destructor
 
-    function deleteContract() public returns(bool) {
+    function deleteContract() requireTrustorOnly returns(bool) {
         selfdestruct(payable(trustor));//typecast to payable bcuz not supported after 0.8.0
         activeStatus = false;//The contract is no longer active
         return activeStatus;
@@ -138,13 +105,8 @@ contract EstatePlanning { //the contracts block
 
     }
 
-    //getters and setters for trustees
+    //getters for trustees
 
-    function setTrustees(address [] memory trustee) public {
-
-        trustees = trustee;
-
-    }
 
     function getTrustees() public view returns (address [] memory) {
 
@@ -174,7 +136,8 @@ contract EstatePlanning { //the contracts block
         uint256,
         uint256,
         string memory,
-        bool
+        bool,
+        address[]
     ){
         return (
             trustor,
@@ -182,7 +145,8 @@ contract EstatePlanning { //the contracts block
             beneficiariesPercentage[beneficiary],//percentage details
             totalAmount,
             trustName,
-            activeStatus
+            activeStatus,
+            beneficiaries
         );
     }
 
@@ -216,17 +180,10 @@ contract EstatePlanning { //the contracts block
 
     }
 
-    //beneficiaries
 
-    //adding beneficiaries
 
-   /* function addBeneficiaries(address beneficiary, uint num) public {
 
-        beneficiariesPercentage[beneficiary] = num;
-        numOfBeneficiaries++;
-
-    }*/
-
+   
     //adding trustees
 
     function addTrustees(address [] memory trustee) public payable requireAdminOnly {
