@@ -138,7 +138,7 @@ export default function Home() {
                                     Planning dApp</h1>
                             </div>
                             <div className="hero-content text-center text-neutral-content mt-40">
-                                <div className="grid grid-flow-row-dense grid-cols-3 grid-rows-3">
+                                <div className="grid grid-flow-row-dense grid-cols-3 grid-rows-1">
                                     <div className="col-span-2">
                                         <div className="form-control">
                                             <div className="input-group">
@@ -154,7 +154,7 @@ export default function Home() {
                                     <div>
                                         <CreateButton/>
                                     </div>
-                                    <div className="col-span-3">
+                                    <div className="col-span-3 mt-10">
                                         <ContentTable contracts={contracts}/>
                                     </div>
                                 </div>
