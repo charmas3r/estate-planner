@@ -5,6 +5,7 @@ import {Web3} from "web3";
 import {PrimaryAccount} from "@/pages";
 import {useRouter} from "next/router";
 import {getTrustDetails} from "@/data/EstatePlanningApi";
+import Image from "next/image";
 
 export interface ContractProps {
     contract: TrustContractDto
@@ -103,14 +104,35 @@ const DetailsPage = () => {
     if (error && error.length > 0) {
         return (
             <div className="bg-base-100">
-                <div role="alert" className="alert alert-error">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none"
-                         viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span>{error}</span>
-                </div>
+                <main>
+                    <div
+                        className="hero from-primary to-accent text-primary-content min-h-screen bg-gradient-to-br py-10 lg:py-20 ">
+                        <div className="hero-content flex-col lg:flex-row my-10 lg:my-20">
+                            <div>
+                                <div>
+                                    <h2 className="mt-4 mb-2 text-4xl font-extrabold md:text-6xl">See your trust
+                                        details</h2>
+                                    <div role="alert" className="alert alert-error">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none"
+                                             viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span>{error}</span>
+                                    </div>
+                                </div>
+                                <div className="py-6">You can see all the details of your trust here.</div>
+                                <div className="card glass bg-opacity-60 text-primary-content m-auto">
+                                    <div className="card-body">
+                                        <Image src="/noun-dead-face.svg" height={200} width={200} alt={"dead"}/>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <Footer/>
             </div>
         )
     } else {
