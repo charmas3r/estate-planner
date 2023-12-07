@@ -110,7 +110,7 @@ contract EstatePlanning {
         address[] memory _beneficiaries,
         uint256[] memory _percentages,
         address[] memory _trustees
-    ) public payable {
+    ) public requireAuthenticatedUsers payable {
         trustor = msg.sender;
         totalAmount = msg.value; //trust amount
         beneficiaries = _beneficiaries;
@@ -177,6 +177,7 @@ contract EstatePlanning {
     function getTrustDetails()
     public
     requireAuthenticatedUsers
+    requireAdminOnly
     view
     returns (
         address,
