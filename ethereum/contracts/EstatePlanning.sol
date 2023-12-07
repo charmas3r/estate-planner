@@ -120,7 +120,7 @@ contract EstatePlanning {
 
     //the destructor
 
-    function deleteContract() private requireTrustorOnly {
+    function deleteContract() public requireTrustorOnly {
         selfdestruct(payable(trustor)); //typecast to payable bcuz not supported after 0.8.0
         activeStatus = false; //The contract is no longer active
     }
