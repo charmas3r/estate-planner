@@ -127,7 +127,7 @@ contract EstatePlanning {
 
     //getters and setters for trustor
 
-    function setTrustor(address _trustor) public requireAdminOnly {
+    function setTrustor(address _trustor) public requireAdminOnly payable {
         trustor = _trustor;
     }
 
@@ -176,6 +176,7 @@ contract EstatePlanning {
     // So far trustor, trustees, beneficiaries, totalAmount, trustName is added to be returned
     function getTrustDetails()
     public
+    requireAuthenticatedUsers
     view
     returns (
         address,
@@ -216,13 +217,18 @@ contract EstatePlanning {
         _;
     }
     modifier requireTrusteeTrustorOnly() {
-        require(msg.sender == trustor);
+        for (uint i=0; i< trustees.length; i++) {
+            require((msg.sender == trustees[i] ) || msg.sender == trustor);
+        }
 
         _;
     } //isTrusteeArray()
 
     modifier requireAuthenticatedUsers() {
-        //require(msg.sender == trustor);
+
+        for (uint i=0; i< users.length; i++) {
+            require((msg.sender == users[i] ) || msg.sender == trustor);
+        }
 
         _;
     }
