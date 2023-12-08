@@ -110,7 +110,7 @@ contract EstatePlanning {
         address[] memory _beneficiaries,
         uint256[] memory _percentages,
         address[] memory _trustees
-    ) public payable {
+    ) public requireAuthenticatedUsers payable {
         trustor = msg.sender;
         totalAmount = msg.value; //trust amount
         beneficiaries = _beneficiaries;
@@ -120,14 +120,14 @@ contract EstatePlanning {
 
     //the destructor
 
-    function deleteContract() private requireTrustorOnly {
+    function deleteContract() public requireTrustorOnly {
         selfdestruct(payable(trustor)); //typecast to payable bcuz not supported after 0.8.0
         activeStatus = false; //The contract is no longer active
     }
 
     //getters and setters for trustor
 
-    function setTrustor(address _trustor) public requireAdminOnly {
+    function setTrustor(address _trustor) public requireAdminOnly payable {
         trustor = _trustor;
     }
 
@@ -176,6 +176,8 @@ contract EstatePlanning {
     // So far trustor, trustees, beneficiaries, totalAmount, trustName is added to be returned
     function getTrustDetails()
     public
+    requireAuthenticatedUsers
+    requireAdminOnly
     view
     returns (
         address,
@@ -216,13 +218,18 @@ contract EstatePlanning {
         _;
     }
     modifier requireTrusteeTrustorOnly() {
-        require(msg.sender == trustor);
+        for (uint i=0; i< trustees.length; i++) {
+            require((msg.sender == trustees[i] ) || msg.sender == trustor);
+        }
 
         _;
     } //isTrusteeArray()
 
     modifier requireAuthenticatedUsers() {
-        //require(msg.sender == trustor);
+
+        for (uint i=0; i< users.length; i++) {
+            require((msg.sender == users[i] ) || msg.sender == trustor);
+        }
 
         _;
     }
