@@ -27,8 +27,7 @@ package BlockchainTrustDapp {
 package TrustUseCase {
   usecase "Add beneficiary" as UC6
   usecase "Add trustee" as UC14
-  usecase "Set trustee active status" as UC15
-  usecase "Set beneficiary active status" as UC7
+  usecase "Set beneficiary percentages" as UC7
 }
 
 a --> UC8

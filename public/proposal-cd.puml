@@ -4,17 +4,23 @@
 class EstatePlannerContract {
 -admin: address
 -trustor: address
--beneficiaries: mapping[address, uint]
+-beneficiariesPercentages: mapping[address, uint]
+-beneficiaries: array[uint]
+-percentages: array[uint]
 -trustees: array[address]
+-activeStatus
+-users
 -isRevoked: boolean
 -totalAmount: uint
 -trustName: string
 
-+createContract(beneficiaries: mapping(address, percentage), trustees)
-+revokeContract()
-+payBeneficiaries()
-+addBeneficiary(beneficiary: mapping(address, percentage)
++createContract(trustname, admine, users)
++deleteContract()
++payoutContract()
++enter(beneficiaries: array[string], percentages: array[int], trustees: array[string])
++setBeneficiaries(beneficiary: array[string])
 +removeBeneficiary(beneficiary: address)
++getTrustDetails()
 +getTotalAmount()
 +getTrustName()
 }
